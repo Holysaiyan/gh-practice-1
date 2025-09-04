@@ -1,0 +1,18 @@
+name: Lint Test Deploy
+on: workflow_dispatch
+jobs:
+  lint-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: run lint
+        run: npm lint
+  test-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: run test
+        run: npm test
+  Deploy-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: deploy app
+        run: npm run build

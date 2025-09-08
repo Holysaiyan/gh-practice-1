@@ -1,30 +1,40 @@
 name: Deployment 1 v2
 on: push
 jobs:
-  checkout-job:
+  Lint:
     runs-on: ubuntu-latest
     steps:
       - name: checkout repository
         uses: actions/checkout@v4
       - name: Install dependencies
         run: npm ci
-
-  Lint:
-    needs: checkout-job
-    runs-on: ubuntu-latest
-    steps:
       - name: Run lint
         run: npm run lint
   Test:
     needs: Lint
     runs-on: ubuntu-latest
     steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
+      - name: Install dependencies
+        run: npm ci
       - name: Run Test
         run: npm test
 
-  Deploy:
+  Build:
     needs: Test
     runs-on: ubuntu-latest
     steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
+      - name: Install dependencies
+        run: npm ci
       - name: Build and deploy
         run: npm run build
+
+  Deploy:
+    needs: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy app
+        run: echo "Hello Deploying app"
